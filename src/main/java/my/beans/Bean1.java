@@ -15,7 +15,7 @@ public class Bean1 {
   private int id;
 
   private String bean1String;
-  @JsonView(value = Views.ViewOne.class)
+//  @JsonView(value = Views.ViewOne.class)
   private String forViewOne;
 
   @JsonView(value = Views.LazyEntity.class)
