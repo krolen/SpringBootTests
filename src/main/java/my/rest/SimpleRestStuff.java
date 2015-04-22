@@ -3,6 +3,7 @@ package my.rest;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import my.beans.Bean1;
 import my.beans.Bean2;
 import my.deserializers.DeserializerOne;
@@ -39,9 +40,14 @@ public class SimpleRestStuff {
     return null;
   }
 
-  @RequestMapping(value = "/bean", method = RequestMethod.POST, consumes = {MediaType.ALL_VALUE})
-  @JsonView(Views.OneAndLazy.class)
-  public Bean1 getSimpleBeanWithCustomJson(@JsonDeserialize(using = DeserializerOne.class) Bean1 bean1) {
+  @RequestMapping(value = "/beanNoAnnotation", method = RequestMethod.POST, consumes = {MediaType.ALL_VALUE})
+  public Bean1 getSimpleBeanNoAnnotation(Bean1 bean1) {
+    Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
+    return bean1;
+  }
+
+  @RequestMapping(value = "/customBean", method = RequestMethod.POST, consumes = {MediaType.ALL_VALUE})
+  public @JsonSerialize Bean1 getSimpleBeanWithCustomJson(@JsonDeserialize(using = DeserializerOne.class) Bean1 bean1) {
     return bean1;
   }
 }

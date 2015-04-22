@@ -16,27 +16,13 @@ import java.util.List;
  * Created by kkulagin on 4/19/15.
  */
 @Configuration
-public class MvcConfig extends WebMvcConfigurerAdapter implements ApplicationListener<ContextRefreshedEvent> {
-
-    @Autowired
-    private RequestMappingHandlerAdapter adapter;
+public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        System.out.println("argumentResolvers = " + argumentResolvers.size());
-        argumentResolvers.add(new MyRequestResponseBodyMethodProcessor());
+        argumentResolvers.add(new MyHandlerMethodArgumentResolver());
     }
 
 
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        // equivalent to <mvc:message-converters>
-    }
-
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
-        RequestResponseBodyMethodProcessor processor = event.getApplicationContext().getBean(RequestResponseBodyMethodProcessor.class);
-
-    }
 }
 

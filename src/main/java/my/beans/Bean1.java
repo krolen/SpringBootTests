@@ -1,5 +1,6 @@
 package my.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import my.views.Views;
 
@@ -12,6 +13,7 @@ import java.util.List;
  */
 public class Bean1 {
 
+  @JsonIgnore
   private int id;
 
   private String bean1String;
