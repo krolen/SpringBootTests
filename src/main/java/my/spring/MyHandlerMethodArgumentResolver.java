@@ -2,14 +2,11 @@ package my.spring;
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -40,7 +37,7 @@ public class MyHandlerMethodArgumentResolver extends RequestResponseBodyMethodPr
 
   @Override
   public boolean supportsReturnType(MethodParameter returnType) {
-    return returnType.hasParameterAnnotation(JsonSerialize.class);
+    return returnType.getMethodAnnotation(JsonSerialize.class) != null;
   }
 
   @Override
@@ -64,7 +61,7 @@ public class MyHandlerMethodArgumentResolver extends RequestResponseBodyMethodPr
   protected <T> void writeWithMessageConverters(T returnValue, MethodParameter returnType, NativeWebRequest webRequest) throws IOException, HttpMediaTypeNotAcceptableException {
     HttpMessageConverter converter = convertersCache.get(returnType);
     if (converter == null) {
-      JsonSerialize annotation = returnType.getParameterAnnotation(JsonSerialize.class);
+      JsonSerialize annotation = returnType.getMethodAnnotation(JsonSerialize.class);
       Class<? extends JsonSerializer<?>> serializer = annotation.using();
       converter = createReturnConverter(serializer, returnType.getParameterType());
       convertersCache.put(returnType, converter);
@@ -90,11 +87,11 @@ public class MyHandlerMethodArgumentResolver extends RequestResponseBodyMethodPr
     return new MappingJackson2HttpMessageConverter(builder.build());
   }
 
-  private HttpMessageConverter createReturnConverter(Class<? extends JsonSerializer<?>> deserializer, Class<?> parameterType) {
+  private HttpMessageConverter createReturnConverter(Class<? extends JsonSerializer<?>> serializer, Class<?> parameterType) {
     Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
-    if(deserializer != null) {
+    if(serializer != null) {
       try {
-        JsonSerializer<?> instance = deserializer.newInstance();
+        JsonSerializer<?> instance = serializer.newInstance();
         builder.serializerByType(parameterType, instance);
       } catch (Exception e) {
         throw new RuntimeException(e);

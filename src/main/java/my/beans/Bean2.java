@@ -1,5 +1,6 @@
 package my.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import my.views.Views;
 
@@ -8,7 +9,8 @@ import my.views.Views;
  * @since 16.04.2015
  */
 public class Bean2 {
-  @JsonView(value = Views.LazyEntity.class)
+//  @JsonView(value = Views.LazyEntity.class)
+  @JsonIgnore
   private int id;
   private String bean2String;
 

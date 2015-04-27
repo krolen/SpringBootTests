@@ -10,7 +10,6 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by kkulagin on 4/22/2015.

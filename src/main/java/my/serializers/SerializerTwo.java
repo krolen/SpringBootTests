@@ -5,25 +5,26 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import my.beans.Bean1;
+import my.beans.Bean2;
 
 import java.io.IOException;
 
 /**
  * Created by kkulagin on 4/22/2015.
  */
-public class SerializerOne extends StdSerializer<Bean1> {
+public class SerializerTwo extends StdSerializer<Bean2> {
 
 
-  public SerializerOne() {
-    super(Bean1.class);
+  public SerializerTwo() {
+    super(Bean2.class);
   }
 
   @Override
-  public void serialize(Bean1 value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+  public void serialize(Bean2 value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
     jgen.writeStartObject();
     jgen.writeNumberField("id", value.getId());
-    jgen.writeStringField("forViewOne", value.getForViewOne());
-    jgen.writeStringField("serializerOne", "true");
+    jgen.writeStringField("bean2String", value.getBean2String());
+    jgen.writeStringField("serializerTwo", "true");
     jgen.writeEndObject();
   }
 }

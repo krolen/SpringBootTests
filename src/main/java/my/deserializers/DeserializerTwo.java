@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import my.beans.Bean1;
-import org.springframework.stereotype.Component;
+import my.beans.Bean2;
 
 import java.io.IOException;
 
@@ -13,11 +13,12 @@ import java.io.IOException;
  * Created by kkulagin on 4/17/2015.
  */
 
-public class DeserializerTwo extends JsonDeserializer<Bean1> {
+public class DeserializerTwo extends JsonDeserializer<Bean2> {
+
   @Override
-  public Bean1 deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-    Bean1 bean1 = new Bean1();
-    bean1.setForViewOne("DeserializerTwo");
-    return bean1;
+  public Bean2 deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    Bean2 bean2 = new Bean2();
+    bean2.setBean2String("DeserializerTwo");
+    return bean2;
   }
 }
