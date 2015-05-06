@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import my.beans.Bean1;
 
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * Created by kkulagin on 4/17/2015.

@@ -22,7 +22,7 @@ public class SerializerOne extends StdSerializer<Bean1> {
   public void serialize(Bean1 value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
     jgen.writeStartObject();
     jgen.writeNumberField("id", value.getId());
-    jgen.writeStringField("forViewOne", value.getForViewOne());
+    jgen.writeStringField("bean1String", value.getBean1String());
     jgen.writeStringField("serializerOne", "true");
     jgen.writeEndObject();
   }
