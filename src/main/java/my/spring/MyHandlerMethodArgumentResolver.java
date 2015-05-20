@@ -2,6 +2,7 @@ package my.spring;
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;
@@ -75,7 +76,7 @@ public class MyHandlerMethodArgumentResolver extends RequestResponseBodyMethodPr
   }
 
   private HttpMessageConverter createParamConverter(Class<? extends JsonDeserializer<?>> deserializer, Class<?> parameterType) {
-    Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
+    Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json().failOnUnknownProperties(false);
     if(deserializer != null) {
       try {
         JsonDeserializer<?> instance = deserializer.newInstance();
@@ -84,11 +85,12 @@ public class MyHandlerMethodArgumentResolver extends RequestResponseBodyMethodPr
         throw new RuntimeException(e);
       }
     }
-    return new MappingJackson2HttpMessageConverter(builder.build());
+    ObjectMapper mapper = builder.build();
+    return new MappingJackson2HttpMessageConverter(mapper);
   }
 
   private HttpMessageConverter createReturnConverter(Class<? extends JsonSerializer<?>> serializer, Class<?> parameterType) {
-    Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
+    Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json().failOnUnknownProperties(false);
     if(serializer != null) {
       try {
         JsonSerializer<?> instance = serializer.newInstance();
@@ -97,7 +99,8 @@ public class MyHandlerMethodArgumentResolver extends RequestResponseBodyMethodPr
         throw new RuntimeException(e);
       }
     }
-    return new MappingJackson2HttpMessageConverter(builder.build());
+    ObjectMapper mapper = builder.build();
+    return new MappingJackson2HttpMessageConverter(mapper);
   }
 
 }
